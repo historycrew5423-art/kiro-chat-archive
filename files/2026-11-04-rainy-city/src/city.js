@@ -109,7 +109,7 @@ const buildingFragment = /* glsl */ `
 			vec3 cool = vec3( 0.62, 0.80, 1.0 );
 			vec3 wc = mix( warmA, warmB, hash12( sid * 1.73 + 4.1 ) );
 			wc = mix( wc, cool, step( 0.84 + 0.14 * warmth, hash12( sid * 2.91 + 1.3 ) ) );
-			float inten = mix( 0.45, 2.6, pow( hash12( sid * 3.7 + 9.2 ), 1.5 ) );
+			float inten = mix( 0.45, 2.6, pow( clamp( hash12( sid * 3.7 + 9.2 ), 0.0, 1.0 ), 1.5 ) );
 			inten *= 0.6 + 0.4 * smoothstep( 0.2, 0.95, g.y );
 			// 一部分窗拉了半边窗帘
 			float curtain = step( 0.72, hash12( sid * 5.1 ) );

@@ -16,7 +16,7 @@ files/YYYY-MM-DD-主题/    该次会话产生的文件（代码、文档等）
 
 | 日期 | 主题 | 聊天记录 | 文件 |
 | --- | --- | --- | --- |
-| 2026-11-04 | 建立归档仓库；Three.js 雨夜城市场景 | [chat-history/2026-11-04-setup-archive.md](chat-history/2026-11-04-setup-archive.md) | [files/2026-11-04-rainy-city](files/2026-11-04-rainy-city) |
+| 2026-11-04 | 建立归档仓库；Three.js 雨夜城市场景（[直接打开](https://htmlpreview.github.io/?https://github.com/historycrew5423-art/kiro-chat-archive/blob/main/files/2026-11-04-rainy-city/index.html)） | [chat-history/2026-11-04-setup-archive.md](chat-history/2026-11-04-setup-archive.md) | [files/2026-11-04-rainy-city](files/2026-11-04-rainy-city) |
 
 ## 同步方式
 

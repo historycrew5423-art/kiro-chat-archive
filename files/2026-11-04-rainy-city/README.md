@@ -3,7 +3,12 @@
 参考一段 gamejam 视频的雨夜天台画面做的场景，暂时不含人物。
 没有加载任何模型、贴图或音频文件：楼、窗户、雨、蒸汽、积水倒影、雨声都是代码实时算出来的。
 
-在线预览（需要先合并 PR 并开启 GitHub Pages）：
+**直接打开就能看：**
+[htmlpreview.github.io/?…/index.html](https://htmlpreview.github.io/?https://github.com/historycrew5423-art/kiro-chat-archive/blob/main/files/2026-11-04-rainy-city/index.html)
+
+这个链接通过第三方的 htmlpreview 服务读取仓库里 `main` 分支的最新文件，不需要任何设置。
+
+如果以后在仓库 Settings → Pages 里开启了 GitHub Pages（分支 `main`，目录 `/ (root)`），也可以用这个地址：
 https://historycrew5423-art.github.io/kiro-chat-archive/files/2026-11-04-rainy-city/
 
 | 正面 | 左转看小屋 |
@@ -30,7 +35,7 @@ https://historycrew5423-art.github.io/kiro-chat-archive/files/2026-11-04-rainy-c
 | 雨 | 近、远两层线段，下落在顶点着色器里算；亮度按到路灯的距离计算，所以灯下的雨最亮。另有地面水花和远处雨幕 | `src/rain.js` |
 | 蒸汽 | 朝向镜头的大面片，采样预先算好的可平铺噪声图，按高度从街灯暖色过渡到天空冷色 | `src/steam.js` |
 | 天空和闪电 | 渐变 + 噪声云层；闪电时天空、楼、地面、雨一起提亮 | `src/sky.js`、`src/main.js` |
-| 后期 | 泛光 → 线性空间调色（暗部偏青、亮部偏暖）→ ACES 色调映射 → 轻微色散、暗角、胶片颗粒 | `src/post.js` |
+| 后期 | 先把 NaN / 无穷大的坏像素清零（否则泛光会把一个坏像素扩散成整屏黑色）→ 泛光 → 线性空间调色（暗部偏青、亮部偏暖）→ ACES 色调映射 → 轻微色散、暗角、胶片颗粒 | `src/post.js` |
 | 雨声 | Web Audio 合成：滤波噪声做雨幕和沙沙声，随机短脉冲做雨滴，低通噪声做雷声 | `src/audio.js` |
 
 ## 画质档位

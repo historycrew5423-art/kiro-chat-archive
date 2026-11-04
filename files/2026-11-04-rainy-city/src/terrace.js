@@ -93,7 +93,7 @@ const FloorShader = {
 			vec3 V = normalize( cameraPosition - vWorld );
 			float NdV = max( dot( N, V ), 0.0 );
 			float F0 = mix( 0.04, 0.02, puddle );
-			float F = F0 + ( 1.0 - F0 ) * pow( 1.0 - NdV, 5.0 );
+			float F = F0 + ( 1.0 - F0 ) * pow( clamp( 1.0 - NdV, 0.0, 1.0 ), 5.0 );
 
 			// 反射：积水处清晰，湿水泥处模糊并沿竖直方向拉长（湿地面倒影的典型样子）
 			vec2 ruv = vUv.xy / vUv.w;
@@ -123,7 +123,7 @@ const FloorShader = {
 				float NdL = max( dot( N, L ), 0.0 );
 				vec3 H = normalize( L + V );
 				float shin = mix( 40.0, 700.0, puddle );
-				float spec = pow( max( dot( N, H ), 0.0 ), shin ) * ( shin + 8.0 ) / 25.0;
+				float spec = pow( clamp( dot( N, H ), 0.0, 1.0 ), shin ) * ( shin + 8.0 ) / 25.0;
 				col += uLampCol[ i ] * att * ( albedo * NdL + spec * F * 0.6 );
 			}
 
@@ -240,8 +240,10 @@ function lightCone( top, height, rTop, rBottom, color, strength ) {
 			varying vec3 vN;
 			varying vec3 vV;
 			void main() {
-				float edge = pow( abs( dot( normalize( vN ), normalize( vV ) ) ), 2.2 );
-				float a = edge * pow( vH, 1.6 ) * uStrength;
+				float edge = pow( clamp( abs( dot( normalize( vN ), normalize( vV ) ) ), 0.0, 1.0 ), 2.2 );
+				// 开 MSAA 时像素中心可能落在三角形外，插值出的 vH 会略小于 0，
+				// pow(负数) 在真显卡上会得到 NaN，所以先夹到 0~1
+				float a = edge * pow( clamp( vH, 0.0, 1.0 ), 1.6 ) * uStrength;
 				gl_FragColor = vec4( uColor * a, 1.0 );
 			}
 		`
