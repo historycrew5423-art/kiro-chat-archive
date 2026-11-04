@@ -25,6 +25,7 @@ knowledge/               从会话里总结出来的经验：工作流、踩过�
 | 日期 | 主题 | 聊天记录 | 文件 |
 | --- | --- | --- | --- |
 | 2026-11-04 | 建立归档仓库；Three.js 雨夜城市场景（[直接打开](https://htmlpreview.github.io/?https://github.com/historycrew5423-art/kiro-chat-archive/blob/main/files/2026-11-04-rainy-city/index.html)） | [chat-history/2026-11-04-setup-archive.md](chat-history/2026-11-04-setup-archive.md) | [files/2026-11-04-rainy-city](files/2026-11-04-rainy-city) |
+| 2026-11-04 | Three.js 峡谷拱门场景（[直接打开](https://htmlpreview.github.io/?https://github.com/historycrew5423-art/kiro-chat-archive/blob/main/files/2026-11-04-canyon-arch/index.html)） | 同上（第 14 轮起） | [files/2026-11-04-canyon-arch](files/2026-11-04-canyon-arch) |
 
 ## 同步方式
 
