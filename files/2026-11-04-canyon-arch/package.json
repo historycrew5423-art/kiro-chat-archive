@@ -1,0 +1,13 @@
+{
+  "name": "canyon-arch",
+  "private": true,
+  "type": "module",
+  "description": "峡谷拱门：Three.js 纯代码生成的场景",
+  "scripts": {
+    "build": "esbuild src/main.js --bundle --format=iife --minify --target=es2020 --outfile=app.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "three": "^0.187.0"
+  }
+}

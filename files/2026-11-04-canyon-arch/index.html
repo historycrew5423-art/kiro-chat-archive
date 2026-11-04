@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#000000">
+	<title>峡谷拱门 · Three.js 纯代码场景</title>
+	<style>
+		html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+		body { font-family: -apple-system, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif; color: #f1ead8; }
+		#c { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+		#c:active { cursor: grabbing; }
+		#loading { position: fixed; inset: 0; display: grid; place-items: center; font-size: 14px; letter-spacing: 0.2em; color: #9a968a; transition: opacity 1.2s; pointer-events: none; }
+		body.ready #loading { opacity: 0; }
+		#hud { position: fixed; left: max(18px, env(safe-area-inset-left)); bottom: max(18px, env(safe-area-inset-bottom)); pointer-events: none; opacity: 0; transition: opacity 2s 1.5s; }
+		body.ready #hud { opacity: 1; }
+		.title { font-size: 15px; letter-spacing: 0.35em; font-weight: 500; text-shadow: 0 1px 8px #000; }
+		.title span { display: block; margin-top: 6px; font-size: 11px; letter-spacing: 0.15em; color: #b8b1a0; font-weight: 400; }
+		#hint { margin-top: 10px; font-size: 11px; color: #cfc6b2; letter-spacing: 0.12em; animation: hint 1s 7s forwards; }
+		@keyframes hint { to { opacity: 0; } }
+		#sound { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); padding: 9px 14px; font: inherit; font-size: 12px; letter-spacing: 0.12em; color: #f1ead8; background: rgba(20, 22, 18, 0.4); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 18px; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: 0; transition: opacity 2s 1.5s, background 0.3s; cursor: pointer; }
+		body.ready #sound { opacity: 1; }
+		#sound.on { background: rgba(255, 190, 110, 0.22); border-color: rgba(255, 200, 130, 0.45); }
+		#fps { display: none; position: fixed; top: 8px; left: 8px; font: 11px/1.4 ui-monospace, monospace; color: #9f9; background: rgba(0,0,0,0.5); padding: 3px 6px; }
+	</style>
+</head>
+<body>
+	<canvas id="c"></canvas>
+	<div id="loading">正在生成峡谷…</div>
+	<div id="hud">
+		<div class="title">峡谷拱门<span>Three.js · 全部由代码实时生成</span></div>
+		<div id="hint">拖动画面环顾四周</div>
+	</div>
+	<button id="sound" type="button">开启声音</button>
+	<div id="fps"></div>
+	<script src="./app.js"></script>
+</body>
+</html>

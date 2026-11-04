@@ -38,6 +38,11 @@
 
 - `browser_run_code_unsafe` 的 `filename` 参数只能读截图目录里的文件，代码直接写在 `code` 里。
 - 截图要写到 `/projects/sandbox/.kiro/artifacts/screenshots/`。写完后文件要过几秒才出现在磁盘上，读取前先 `sleep` 并用 `ls` 确认。
+- `read_file` 看图比 shell 晚：shell 里 `ls` 已经能看到的新文件，`read_file` 可能还要再等 10~30 秒才读得到，报 ENOENT 时不是截图失败。
+  稳妥做法：用 shell 等文件出现 → 复制到工作区的临时目录 → 再等十几秒 → `read_file`。同一轮里可以先去写别的文件，回头再读。
+  文件名不要和以前的截图重名，否则可能读到旧图；判断新图可以用 `find -newer app.js`。
+- 页面渲染很慢时，`page.click()` 会因为等页面响应而超时。用 `page.evaluate(() => el.click())` 和 `page.dispatchEvent('#c', 'pointerdown', {...})` 代替。
+- 重的场景用 `?q=low` 跑“实时运行 10 秒有没有报错”的检查，用 `?q=high` + 冻结帧截效果图。
 - 渲染用 SwiftShader（软件 WebGL），每秒约 1 帧。截图前用页面里的调试开关渲染固定的一帧并停住，否则会超时。
 - 软件渲染和真显卡行为不同（例如不会出现 NaN），真机效果要请用户确认。
 - 没有中文字体，中文显示成方框。
