@@ -12,6 +12,12 @@ files/YYYY-MM-DD-主题/    该次会话产生的文件（代码、文档等）
 .kiro/steering/          Kiro 的同步规则
 ```
 
+## 内容
+
+| 日期 | 主题 | 聊天记录 | 文件 |
+| --- | --- | --- | --- |
+| 2026-11-04 | 建立归档仓库；Three.js 雨夜城市场景 | [chat-history/2026-11-04-setup-archive.md](chat-history/2026-11-04-setup-archive.md) | [files/2026-11-04-rainy-city](files/2026-11-04-rainy-city) |
+
 ## 同步方式
 
 每次 Kiro 会话结束前，Kiro 会把本次会话的聊天记录和产生的文件提交到这个仓库。
