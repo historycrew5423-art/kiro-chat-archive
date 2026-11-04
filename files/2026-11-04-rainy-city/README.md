@@ -3,7 +3,12 @@
 参考一段 gamejam 视频的雨夜天台画面做的场景，暂时不含人物。
 没有加载任何模型、贴图或音频文件：楼、窗户、雨、蒸汽、积水倒影、雨声都是代码实时算出来的。
 
-在线预览（需要先合并 PR 并开启 GitHub Pages）：
+**直接打开就能看：**
+[htmlpreview.github.io/?…/index.html](https://htmlpreview.github.io/?https://github.com/historycrew5423-art/kiro-chat-archive/blob/main/files/2026-11-04-rainy-city/index.html)
+
+这个链接通过第三方的 htmlpreview 服务读取仓库里 `main` 分支的最新文件，不需要任何设置。
+
+如果以后在仓库 Settings → Pages 里开启了 GitHub Pages（分支 `main`，目录 `/ (root)`），也可以用这个地址：
 https://historycrew5423-art.github.io/kiro-chat-archive/files/2026-11-04-rainy-city/
 
 | 正面 | 左转看小屋 |
