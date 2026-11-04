@@ -1,0 +1,14 @@
+{
+  "name": "rainy-city",
+  "version": "1.0.0",
+  "description": "雨夜城市：Three.js 纯代码生成的场景",
+  "scripts": {
+    "build": "esbuild src/main.js --bundle --format=iife --minify --target=es2020 --outfile=app.js"
+  },
+  "type": "module",
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "three": "^0.187.0"
+  },
+  "private": "true"
+}
