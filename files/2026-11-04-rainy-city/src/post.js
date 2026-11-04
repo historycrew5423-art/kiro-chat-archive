@@ -6,6 +6,30 @@ import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { NOISE } from './glsl.js';
 
+// 安全阀：把 NaN / 无穷大的像素清零，并限制最大亮度。
+// 不加这一步时，只要有一个坏像素，泛光的多级模糊就会把它扩散成大块黑色，画面会一闪一闪地变黑。
+// 用位运算判断指数位，避免编译器的快速数学优化把 isnan 判断去掉。
+const SanitizeShader = {
+	name: 'Sanitize',
+	uniforms: { tDiffuse: { value: null } },
+	vertexShader: /* glsl */ `
+		varying vec2 vUv;
+		void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 ); }
+	`,
+	fragmentShader: /* glsl */ `
+		uniform sampler2D tDiffuse;
+		varying vec2 vUv;
+		bool bad( float x ) { return ( floatBitsToUint( x ) & 0x7f800000u ) == 0x7f800000u; }
+		void main() {
+			vec4 t = texture2D( tDiffuse, vUv );
+			vec3 c = t.rgb;
+			if ( bad( c.r ) || bad( c.g ) || bad( c.b ) ) c = vec3( 0.0 );
+			c = clamp( c, 0.0, 300.0 );
+			gl_FragColor = vec4( c, 1.0 );
+		}
+	`
+};
+
 // 线性 HDR 空间里调色：暗部偏青蓝、亮部偏暖，略降饱和，像电影里的雨夜
 const GradeShader = {
 	name: 'Grade',
@@ -79,6 +103,7 @@ export function createPost( renderer, scene, camera, Q ) {
 	const target = new THREE.WebGLRenderTarget( size.x, size.y, { type: THREE.HalfFloatType, samples: Q.msaa } );
 	const composer = new EffectComposer( renderer, target );
 	composer.addPass( new RenderPass( scene, camera ) );
+	composer.addPass( new ShaderPass( SanitizeShader ) );
 	const bloom = new UnrealBloomPass( new THREE.Vector2( size.x * Q.bloomScale, size.y * Q.bloomScale ), 0.75, 0.6, 1.1 );
 	composer.addPass( bloom );
 	const grade = new ShaderPass( GradeShader );
