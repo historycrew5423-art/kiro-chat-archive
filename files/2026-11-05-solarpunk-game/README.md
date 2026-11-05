@@ -79,3 +79,53 @@ npm install
 npm run build      # 把 src/ 打包成 app.js
 node serve.mjs     # 打开 http://localhost:8765
 ```
+
+## 给队友：拿去改
+
+### 只下载这个文件夹
+
+这个文件夹放在聊天归档仓库里，不用下载整个仓库：
+
+```bash
+git clone --filter=blob:none --sparse https://github.com/historycrew5423-art/kiro-chat-archive.git
+cd kiro-chat-archive
+git sparse-checkout set files/2026-11-05-solarpunk-game
+cd files/2026-11-05-solarpunk-game
+npm install
+npm run build
+node serve.mjs     # 打开 http://localhost:8765
+```
+
+- 需要 Node.js 18 或更新的版本。
+- 不能直接双击 `index.html` 打开：浏览器会拦住从本地文件加载贴图和模型，必须用 `serve.mjs` 或别的本地服务器。
+- 2026-11-05 验证过：全新下载后 `npm ci && npm run build`，打包出的 `app.js` 和仓库里的完全一样。
+
+### 改代码的流程
+
+1. 改 `src/` 里的文件。
+2. `npm run build` 重新打包成 `app.js`，刷新浏览器看效果。
+3. 提交时把 `app.js` 一起提交。`app.js` 是打包结果，“直接打开”的链接读的就是它；只改 `src/` 不重新打包，链接里还是旧版本。
+
+### 常改的东西在哪
+
+| 想改 | 文件 | 位置 |
+| --- | --- | --- |
+| 阳光种子的数量和位置 | `src/objectives.js` | 开头的 `seedPos`（山顶 3 颗、高架 6 颗、连接平台 1 颗） |
+| 走路速度、跑步速度 | `src/player.js` | `const speed = run ? 10.5 : 5.2;` |
+| 跳跃高度、重力 | `src/player.js` | 空格跳 `vel.y = 9.0`，重力 `const GRAV = 26;` |
+| 主体建筑的位置和大小 | `src/layout.js` | `L` 对象（按参考图像素位置反推，见文件开头的说明） |
+| 高架的走向 | `src/layout.js` | `VIADUCT.points` |
+| 画质（阴影、楼的数量、树的数量） | `src/main.js` | 开头的 `TIERS` |
+| 主角身高 | `src/main.js` | `createCharacter( gltf, 1.6 )` |
+| 提示文字、界面 | `index.html`、`src/main.js` 里的 `ui` | |
+
+### 换主角模型
+
+把新模型放到 `assets/character.glb`。要注意：
+
+- 现在的模型没有骨骼，`src/character.js` 按这个袋鼠的身材自动算蒙皮权重：模型高约 0.98、脚底在 y=0、面朝 +Z，腰、膝、肩的高度写死在 `BONES` 和 `computeWeights()` 里。换成身材不同的模型，要按新模型改这些数字，否则动画会把身体拧坏。
+- 如果新模型自带骨骼和动画，可以不用 `character.js`，直接用 three 的 `AnimationMixer` 播放模型里的动画。
+
+### 没用上的文件
+
+`assets/leafy_grass_arm.jpg` 和 `assets/mossy_rock_arm.jpg` 目前没用上（前者没加载，后者加载了但着色器没采样），可以删掉或接上。
