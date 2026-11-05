@@ -29,6 +29,7 @@ knowledge/               从会话里总结出来的经验：工作流、踩过�
 | --- | --- | --- | --- |
 | 2026-11-04 | 建立归档仓库；Three.js 雨夜城市场景（[直接打开](https://htmlpreview.github.io/?https://github.com/historycrew5423-art/kiro-chat-archive/blob/main/files/2026-11-04-rainy-city/index.html)） | [chat-history/2026-11-04-setup-archive.md](chat-history/2026-11-04-setup-archive.md) | [files/2026-11-04-rainy-city](files/2026-11-04-rainy-city) |
 | 2026-11-04 | Three.js 峡谷拱门场景（[直接打开](https://htmlpreview.github.io/?https://github.com/historycrew5423-art/kiro-chat-archive/blob/main/files/2026-11-04-canyon-arch/index.html)） | 同上（第 14 轮起） | [files/2026-11-04-canyon-arch](files/2026-11-04-canyon-arch) |
+| 2026-11-05 | 太阳朋克世界小游戏“绿环之城”（[直接打开](https://htmlpreview.github.io/?https://github.com/historycrew5423-art/kiro-chat-archive/blob/main/files/2026-11-05-solarpunk-game/index.html)） | [chat-history/2026-11-05-solarpunk-game.md](chat-history/2026-11-05-solarpunk-game.md) | [files/2026-11-05-solarpunk-game](files/2026-11-05-solarpunk-game) |
 | 2026-11-05 | 黑客松游戏设计：自我介绍、报名表文字、玩法讨论（记忆穿越方向）、从进入界面到结局的画面流程、选年龄和职业的方向、素材候选表、目标玩家年龄 | [chat-history/2026-11-05-hackathon-game-design.md](chat-history/2026-11-05-hackathon-game-design.md) | 无 |
 
 ## 同步方式

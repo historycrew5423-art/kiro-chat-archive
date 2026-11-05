@@ -1,0 +1,13 @@
+{
+  "name": "solarpunk-game",
+  "private": true,
+  "type": "module",
+  "description": "太阳朋克世界：Three.js 第三人称小游戏",
+  "scripts": {
+    "build": "esbuild src/main.js --bundle --format=iife --minify --target=es2020 --outfile=app.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "three": "^0.187.0"
+  }
+}
