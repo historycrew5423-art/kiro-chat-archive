@@ -118,3 +118,51 @@
 一共 10 个文件，约 3.3 MB。袋鼠模型是你给的，不算在里面。建筑、高架、圆环、飞行器、动画和声音都是代码做的，没用素材。
 
 我刚才检查时发现有 2 个文件是白下载的：草地的粗糙度图代码里根本没加载，岩石的粗糙度图加载了但没用上。真正用到的是 8 个文件。没用上的这两个，你打开游戏时会多下载约 180 KB。要不要我删掉它们，或者把岩石的这张接上去让山崖质感更好一点？
+
+---
+
+## 第 18 轮
+
+### 用户
+
+> 给我把游戏存下来到github，我队友要拿去改
+
+### Kiro 做了什么
+
+- 确认游戏已经在 GitHub 的 `main` 上：源码 `src/` 18 个文件、素材、`package.json` 和 `package-lock.json`、打包好的 `app.js` 都在，约 6 MB。
+- 模拟队友拿代码：全新只下载游戏文件夹（sparse checkout），`npm ci && npm run build`，打包出的 `app.js` 和仓库里的 sha256 完全一致。
+- 在游戏 README 里加了“给队友：拿去改”一节。
+- 没有再尝试新建仓库：`knowledge/kiro-sandbox-notes.md` 里记着新建仓库会返回 403。
+- 开了 PR #14。
+
+### Kiro 回复
+
+游戏已经存在 GitHub 上了，源码、素材和打包好的文件都在。我刚模拟你队友的操作验证了一遍：只下载游戏文件夹，装依赖、重新打包，打包出来的文件和仓库里的一模一样。他拿到就能改，也能重新构建。
+
+**游戏在这里：** [files/2026-11-05-solarpunk-game](https://github.com/historycrew5423-art/kiro-chat-archive/tree/main/files/2026-11-05-solarpunk-game)，约 6 MB。
+
+**让你队友这样下载（只下游戏，不下整个仓库）：**
+```bash
+git clone --filter=blob:none --sparse https://github.com/historycrew5423-art/kiro-chat-archive.git
+cd kiro-chat-archive
+git sparse-checkout set files/2026-11-05-solarpunk-game
+cd files/2026-11-05-solarpunk-game
+npm install
+npm run build
+node serve.mjs   # 然后打开 http://localhost:8765
+```
+需要装 Node.js 18 或更新的版本。不能直接双击 `index.html` 打开，浏览器会拦住贴图和模型的加载。
+
+我还在游戏的 README 里加了一节“给队友：拿去改”，写了：
+- 改完 `src/` 一定要 `npm run build`，并把 `app.js` 一起提交，不然直接打开的链接还是旧版。
+- 常改的东西在哪个文件：种子位置、走路速度、跳跃高度、建筑位置、画质、主角身高。
+- 换主角模型要注意什么：现在的动画是按这只袋鼠的身材写死的，换成别的身材要改骨骼位置。
+
+已合并到 `main`：[PR #14](https://github.com/historycrew5423-art/kiro-chat-archive/pull/14)。
+
+**建议另开一个仓库给你们改。** 现在游戏放在聊天归档仓库里，里面还有聊天记录，我每次会话也会往里推，你队友在这里改容易和我的同步冲突。另开仓库还能设成私有，顺便解决角色模型能不能公开的问题。不过设成私有的话，“直接打开”的链接就用不了，只能在本地运行。
+
+新仓库我建不了（GitHub 返回 403），需要你：
+1. 在 [github.com/new](https://github.com/new) 建一个空仓库，比如 `solarpunk-game`，选公开或私有，README 之类的都不要勾。
+2. 告诉我仓库名，我把游戏推进去，做成一个独立项目，不带聊天记录。
+3. 在新仓库的 Settings → Collaborators 里把队友加进去，他才能推代码。你也可以告诉我他的 GitHub 用户名，我试着帮你加，但我不一定有这个权限。
