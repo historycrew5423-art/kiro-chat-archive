@@ -694,6 +694,8 @@ AI 那边，无人机会不停地把彩色区域刷回灰色，地图上显示�
 - 更新 `README.md` 的经验索引和会话索引。
 - 提交前用 grep 检查新文件，确认隐去的名次、数字和昵称没有留下。
 - 提交、推送，开 PR #5，拿到链接后把这一轮回复的全文写进本文件，再提交、合并。
+- 推送第二个提交后马上合并，返回 HTTP 405。查了 PR 状态：新提交已经在 PR 上，显示可以合并，原因是 GitHub 还没处理完刚推上去的提交。等了几秒，带上提交的 sha 重试，合并成功。
+- 把这个坑写进 `knowledge/kiro-sandbox-notes.md` 和 `knowledge/archive-workflow.md`。PR #5 已经合并，所以另开分支 `sync/2026-11-05-merge-405-note` 和 PR #6 来提交，同样先把回复写进记录再合并。
 
 ### Kiro 回复
 
@@ -711,3 +713,5 @@ AI 那边，无人机会不停地把彩色区域刷回灰色，地图上显示�
 这次没有产生代码文件，所以 `files/` 下没有新目录。
 
 上次同步时，最后一条回复是提交之后才发的，记录里只有要点。这次我先开 PR 拿到链接，把这条回复的全文写进记录再合并，所以这条也存了全文。
+
+合并时遇到一次 HTTP 405：推送后马上合并太快了，GitHub 还没处理完新提交，等几秒重试就成功了。这个坑我补进了 `knowledge/kiro-sandbox-notes.md` 和 `archive-workflow.md`，放在 [PR #6](https://github.com/historycrew5423-art/kiro-chat-archive/pull/6) 里，也已经合并。

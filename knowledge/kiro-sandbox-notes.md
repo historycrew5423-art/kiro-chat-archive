@@ -9,6 +9,7 @@
 | 新建仓库（`POST /user/repos`） | 403，重试也一样 | 请用户在 github.com/new 手动建空仓库（不勾选 README 等） |
 | 开启 GitHub Pages（`POST /repos/.../pages`） | 403 | 请用户在 Settings → Pages 手动开启；不想让用户操作就用下面的预览链接 |
 | 推送、开 PR、合并 PR（`PUT /pulls/{n}/merge`） | 可以 | 正常用 |
+| 往 PR 分支推送后马上合并 | HTTP 405，但 PR 其实可以合并：GitHub 还没处理完刚推上去的提交（2026-11-05 遇到） | 等几秒，查 `gh api repos/{owner}/{repo}/pulls/{n} --jq .mergeable_state` 是 `clean` 后再合并，并带上 `-f sha=$(git rev-parse HEAD)` |
 | `gh pr`、`gh issue` 等子命令 | 失败（不支持 GraphQL） | 用 `gh api` 调 REST 接口 |
 
 ## 不开 Pages 也能直接打开网页
