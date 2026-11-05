@@ -129,7 +129,7 @@
 
 ### Kiro 做了什么
 
-- 确认游戏已经在 GitHub 的 `main` 上：源码 `src/` 18 个文件、素材、`package.json` 和 `package-lock.json`、打包好的 `app.js` 都在，约 6 MB。
+- 确认游戏已经在 GitHub 的 `main` 上：源码 `src/` 19 个文件、素材、`package.json` 和 `package-lock.json`、打包好的 `app.js` 都在，约 6 MB。
 - 模拟队友拿代码：全新只下载游戏文件夹（sparse checkout），`npm ci && npm run build`，打包出的 `app.js` 和仓库里的 sha256 完全一致。
 - 在游戏 README 里加了“给队友：拿去改”一节。
 - 没有再尝试新建仓库：`knowledge/kiro-sandbox-notes.md` 里记着新建仓库会返回 403。
@@ -166,3 +166,17 @@ node serve.mjs   # 然后打开 http://localhost:8765
 1. 在 [github.com/new](https://github.com/new) 建一个空仓库，比如 `solarpunk-game`，选公开或私有，README 之类的都不要勾。
 2. 告诉我仓库名，我把游戏推进去，做成一个独立项目，不带聊天记录。
 3. 在新仓库的 Settings → Collaborators 里把队友加进去，他才能推代码。你也可以告诉我他的 GitHub 用户名，我试着帮你加，但我不一定有这个权限。
+
+---
+
+## 第 19 轮
+
+### 用户
+
+> 你这咋做出来的给我一下工作流
+
+### Kiro 做了什么
+
+- 按这次会话的实际步骤整理工作流；用文件时间估算耗时：模型 09:15 下载，第一版能玩的截图 10:32（沙盒时间）。
+- 顺手改正第 18 轮“Kiro 做了什么”里的一个数字：`src/` 是 19 个文件，不是 18 个。
+- 开 PR 存这一轮的记录。
