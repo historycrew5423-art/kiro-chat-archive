@@ -22,6 +22,7 @@ knowledge/               从会话里总结出来的经验：工作流、踩过�
 | [game-design-notes.md](knowledge/game-design-notes.md) | 游戏设计：方案写得很细却像“看演出”的坑和改法；黑客松游戏的当前方向和疫情题材的取材边界 |
 | [writing-preferences.md](knowledge/writing-preferences.md) | 帮用户写简介、报名表等文字的要求 |
 | [archive-workflow.md](knowledge/archive-workflow.md) | 归档同步：用户确认过的隐私处理办法；怎样让最后一轮回复也存全文 |
+| [video-production.md](knowledge/video-production.md) | 视频：怎么下载和“看完”抖音视频；参考教程的结构；我们教程视频的现状；用网页代码做动画素材 |
 
 ## 会话
 
@@ -29,8 +30,9 @@ knowledge/               从会话里总结出来的经验：工作流、踩过�
 | --- | --- | --- | --- |
 | 2026-11-04 | 建立归档仓库；Three.js 雨夜城市场景（[直接打开](https://htmlpreview.github.io/?https://github.com/historycrew5423-art/kiro-chat-archive/blob/main/files/2026-11-04-rainy-city/index.html)） | [chat-history/2026-11-04-setup-archive.md](chat-history/2026-11-04-setup-archive.md) | [files/2026-11-04-rainy-city](files/2026-11-04-rainy-city) |
 | 2026-11-04 | Three.js 峡谷拱门场景（[直接打开](https://htmlpreview.github.io/?https://github.com/historycrew5423-art/kiro-chat-archive/blob/main/files/2026-11-04-canyon-arch/index.html)） | 同上（第 14 轮起） | [files/2026-11-04-canyon-arch](files/2026-11-04-canyon-arch) |
+| 2026-11-05 | 黑客松游戏设计：自我介绍、报名表文字、玩法讨论（记忆穿越方向）、从进入界面到结局的画面流程、选年龄和职业的方向、素材候选表、目标玩家年龄、场景和模型清单、攻击形式 | [chat-history/2026-11-05-hackathon-game-design.md](chat-history/2026-11-05-hackathon-game-design.md) | 无 |
+| 2026-11-05 | 教程视频脚本：看完参考的抖音教程，按 nai 游戏的真实过程写真人出镜教程的分镜脚本、口播稿和剪辑规范；动画样片 | [chat-history/2026-11-05-tutorial-video-script.md](chat-history/2026-11-05-tutorial-video-script.md) | [files/2026-11-05-tutorial-video](files/2026-11-05-tutorial-video) |
 | 2026-11-05 | 太阳朋克世界小游戏“绿环之城”（[直接打开](https://htmlpreview.github.io/?https://github.com/historycrew5423-art/kiro-chat-archive/blob/main/files/2026-11-05-solarpunk-game/index.html)） | [chat-history/2026-11-05-solarpunk-game.md](chat-history/2026-11-05-solarpunk-game.md) | [files/2026-11-05-solarpunk-game](files/2026-11-05-solarpunk-game) |
-| 2026-11-05 | 黑客松游戏设计：自我介绍、报名表文字、玩法讨论（记忆穿越方向）、从进入界面到结局的画面流程、选年龄和职业的方向、素材候选表、目标玩家年龄 | [chat-history/2026-11-05-hackathon-game-design.md](chat-history/2026-11-05-hackathon-game-design.md) | 无 |
 
 ## 同步方式
 

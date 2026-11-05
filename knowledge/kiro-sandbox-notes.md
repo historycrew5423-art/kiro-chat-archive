@@ -54,11 +54,23 @@
 
 - npm、GitHub、普通网站都能访问。
 
+## Python 工具和 ffmpeg（2026-11-05）
+
+| 问题 | 怎么办 |
+| --- | --- |
+| `pip install` 报 `Read-only file system: '/root/.local/lib'` | `python3 -m venv /tmp/venv`，用 `/tmp/venv/bin/pip` 装 |
+| 沙盒里没有 ffmpeg | 在 venv 里装 `imageio-ffmpeg`，用 `python -c "import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())"` 拿到静态版 ffmpeg 的路径 |
+| 命令的 `cwd` 不是 `/tmp` 时，有时看不到 `/tmp/venv` 里的文件，报 `No such file or directory`；`cwd=/tmp` 时又正常 | 用到 `/tmp/venv` 的命令一律把 `cwd` 设成 `/tmp`，再在命令里 `cd` 到别处 |
+| ffmpeg `drawtext` 的字体路径里有方括号（如 `NotoSans[wght].ttf`），滤镜解析失败 | 先把字体复制成没有特殊字符的文件名 |
+| 视频、转写、截图帧这些中间文件 | 放 `/tmp`，不放工作区；需要 `read_file` 看的图再复制到工作区 `.work/` |
+
+下载抖音视频、转写、逐个镜头看画面、用网页做动画视频的完整做法见 `video-production.md`。
+
 ## 沙盒的文件系统
 
-- `/tmp` 和 pip 默认安装目录不会保留到下一条命令。临时文件放在 `/projects/sandbox/` 下面。
-- Python 包用 `python3 -m pip install --target /projects/sandbox/<目录>/py <包名>` 装，运行时加 `PYTHONPATH`。Pillow 这样装可以用。
-- 没有 ImageMagick、ffmpeg、xxd。图片处理用 Pillow。
+- 命令的 `cwd` 不是 `/tmp` 时，上一条命令写进 `/tmp` 的文件可能看不到（见上一节）。想跨命令保留的临时文件，放在 `/projects/sandbox/` 下面。
+- 另一个装 Python 包的办法：`python3 -m pip install --target /projects/sandbox/<目录>/py <包名>`，运行时加 `PYTHONPATH`。Pillow 这样装可以用。
+- 没有 ImageMagick、xxd。图片处理用 Pillow。
 
 ## 下载用户给的临时文件
 
