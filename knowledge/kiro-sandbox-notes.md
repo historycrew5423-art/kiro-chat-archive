@@ -42,6 +42,7 @@
 - `read_file` 看图比 shell 晚：shell 里 `ls` 已经能看到的新文件，`read_file` 可能还要再等 10~30 秒才读得到，报 ENOENT 时不是截图失败。
   稳妥做法：用 shell 等文件出现 → 复制到工作区的临时目录 → 再等十几秒 → `read_file`。同一轮里可以先去写别的文件，回头再读。
   文件名不要和以前的截图重名，否则可能读到旧图；判断新图可以用 `find -newer app.js`。
+- **`read_file` 读不到新截图时**：在同一个目录里用 `fs_write` 随便写一个小文件，再 `read_file` 就能读到。等再久也没用，写一次文件会触发同步。
 - 页面渲染很慢时，`page.click()` 会因为等页面响应而超时。用 `page.evaluate(() => el.click())` 和 `page.dispatchEvent('#c', 'pointerdown', {...})` 代替。
 - 重的场景用 `?q=low` 跑“实时运行 10 秒有没有报错”的检查，用 `?q=high` + 冻结帧截效果图。
 - 渲染用 SwiftShader（软件 WebGL），每秒约 1 帧。截图前用页面里的调试开关渲染固定的一帧并停住，否则会超时。
@@ -64,3 +65,24 @@
 | 视频、转写、截图帧这些中间文件 | 放 `/tmp`，不放工作区；需要 `read_file` 看的图再复制到工作区 `.work/` |
 
 下载抖音视频、转写、逐个镜头看画面、用网页做动画视频的完整做法见 `video-production.md`。
+
+## 沙盒的文件系统
+
+- 命令的 `cwd` 不是 `/tmp` 时，上一条命令写进 `/tmp` 的文件可能看不到（见上一节）。想跨命令保留的临时文件，放在 `/projects/sandbox/` 下面。
+- 另一个装 Python 包的办法：`python3 -m pip install --target /projects/sandbox/<目录>/py <包名>`，运行时加 `PYTHONPATH`。Pillow 这样装可以用。
+- 没有 ImageMagick、xxd。图片处理用 Pillow。
+
+## 下载用户给的临时文件
+
+- tmpfiles.org 的分享链接是一个网页。真正的下载链接在页面里，形如 `https://tmpfiles.org/dl/<时间戳>.<签名>/<id>/<文件名>`，用 `grep -o 'href="https://tmpfiles.org/dl/[^"]*"'` 取出来，带上 `-e <分享链接>`（Referer）下载。
+- 这类文件会过期，拿到后马上存进仓库。
+
+## 免费素材
+
+- Poly Haven（全部 CC0）有接口：`https://api.polyhaven.com/assets?t=hdris|models|textures`、`https://api.polyhaven.com/files/<id>`；缩略图 `https://cdn.polyhaven.com/asset_img/thumbs/<id>.png?width=512&height=256`。
+- 它的树模型都是几百万面，不能直接用在网页里；但模型的贴图（比如叶片贴图）可以单独下载使用。
+
+## 网页通过 htmlpreview 打开时加载素材
+
+- htmlpreview 会处理 `<script src>`，但页面里 JS 用相对路径加载的文件（贴图、模型）会指向 htmlpreview.github.io 自己，加载失败。
+- 做法：检测 `location.hostname === 'htmlpreview.github.io'`，从地址里解析出仓库和目录，改从 `raw.githubusercontent.com/<owner>/<repo>/<branch>/<dir>/` 加载。raw.githubusercontent.com 返回 `Access-Control-Allow-Origin: *`，贴图和 GLB 都能跨域加载。见 `files/2026-11-05-solarpunk-game/src/assets.js`。
