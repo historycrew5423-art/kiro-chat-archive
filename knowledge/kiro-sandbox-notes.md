@@ -52,3 +52,15 @@
 ## 沙盒网络
 
 - npm、GitHub、普通网站都能访问。
+
+## Python 工具和 ffmpeg（2026-11-05）
+
+| 问题 | 怎么办 |
+| --- | --- |
+| `pip install` 报 `Read-only file system: '/root/.local/lib'` | `python3 -m venv /tmp/venv`，用 `/tmp/venv/bin/pip` 装 |
+| 沙盒里没有 ffmpeg | 在 venv 里装 `imageio-ffmpeg`，用 `python -c "import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())"` 拿到静态版 ffmpeg 的路径 |
+| 命令的 `cwd` 不是 `/tmp` 时，有时看不到 `/tmp/venv` 里的文件，报 `No such file or directory`；`cwd=/tmp` 时又正常 | 用到 `/tmp/venv` 的命令一律把 `cwd` 设成 `/tmp`，再在命令里 `cd` 到别处 |
+| ffmpeg `drawtext` 的字体路径里有方括号（如 `NotoSans[wght].ttf`），滤镜解析失败 | 先把字体复制成没有特殊字符的文件名 |
+| 视频、转写、截图帧这些中间文件 | 放 `/tmp`，不放工作区；需要 `read_file` 看的图再复制到工作区 `.work/` |
+
+下载抖音视频、转写、逐个镜头看画面、用网页做动画视频的完整做法见 `video-production.md`。
