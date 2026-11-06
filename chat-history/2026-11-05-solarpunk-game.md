@@ -411,3 +411,34 @@ node serve.mjs   # 然后打开 http://localhost:8765
 - 从沙盒测了能不能访问：AutoDL 官网能打开，SSH 域名能解析；RunPod 官网能打开，REST API 无密钥返回 401（说明能连上）。
 - 没找到有人在 AutoDL 容器里验证过 WebGPU；RunPod A40 上有人验证过。
 - 在 `knowledge/kiro-sandbox-notes.md` 记下平台对比和接入方式。没有生成密钥，用户还没决定租哪家。
+
+### Kiro 回复
+
+我挑了两家，按四件事比较：国内能不能付款、我能不能 SSH 连进去、能不能跑 WebGPU、价格。
+
+| | AutoDL（推荐先试） | RunPod（备选） |
+| --- | --- | --- |
+| 在哪 | 国内 | 海外 |
+| 付款 | 人民币充值，需要实名认证 | 海外信用卡或加密货币，国内的卡容易被拒 |
+| 价格 | RTX 3090 约 ¥1.2/小时，4090D 约 ¥1.88/小时（[第三方指南](https://github.com/JoeyYu23/autodl-guide)今年 3 月的价格，以官网为准） | A5000 $0.27、A40 $0.59、4090 $0.89 每小时（[官网价](https://www.runpod.io/pricing)），按秒计费 |
+| 我能不能连上 | 能用 SSH。我这边能打开它的网站，SSH 登录域名也能解析 | 能用 SSH，它的接口我这边也能访问 |
+| 能不能跑 WebGPU | 没找到有人验证过，要实际测 | [有人在它的 A40 上跑通过](https://tigerabrodi.blog/how-to-get-webgpu-in-headless-chrome-on-cloud-gpus) |
+| 给 AI 用的工具 | 有第三方做的[命令行和 MCP 工具](https://github.com/Minato-Aqukin/AutoDL-cli)，能开机、关机、到点自动关机（非官方） | 官方有接口和命令行 |
+
+**建议先在 AutoDL 上花几毛钱测一下。** 租最便宜的卡，开 15 分钟左右，我装好 Chrome 跑一次 WebGPU 检测。能跑就一直用它。如果跑不通，比如容器里没有显卡画图需要的驱动，就换 RunPod，那边有人跑通过。
+
+**不建议用的：**
+- **云游戏电脑**（比如海马云）：便宜，但一般只给远程桌面，我 SSH 不进去。
+- **Google Colab**：能跑 WebGPU，但不能 SSH，会话还会断。
+- **Browserbase 这类云浏览器**：没有显卡。
+
+**在 AutoDL 上怎么让我连进去：**
+1. 注册、实名认证、充几块钱。
+2. 在“算力市场”选一张卡，选“按量计费”，镜像选基础的 Ubuntu 或 Miniconda。
+3. 开机后，在网页上打开 JupyterLab 的终端，粘贴我给你的一行命令，作用是把我的公钥加进去。
+4. 把 SSH 登录地址和端口发给我，root 密码不要发。
+5. 我登录、配环境、测试。AutoDL 访问 GitHub 比较慢，要开它自带的加速，这个我来处理。用完你在网页上点关机。
+
+AutoDL 也可以给我一个“开发者 Token”，让我自己开关机。但这个 Token 能直接花你账户里的钱，而我们的聊天记录会同步到公开仓库，所以我不建议发给我。
+
+你定好租哪家后告诉我，我先生成密钥，再把第 3 步要粘贴的命令给你。这次没改代码，这段对话已经存进归档（[PR #21](https://github.com/historycrew5423-art/kiro-chat-archive/pull/21)）。
