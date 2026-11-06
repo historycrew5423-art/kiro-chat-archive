@@ -294,3 +294,20 @@ node serve.mjs   # 然后打开 http://localhost:8765
 你想先看哪个？
 
 这一轮对话已存进归档：[PR #18](https://github.com/historycrew5423-art/kiro-chat-archive/pull/18)。
+
+---
+
+## 第 21 轮
+
+### 用户
+
+> 我不需要你现在改，我想让你查查github上别人opus5.5搭的3d场景看看，他们怎么搭的。我想知道你的极限在哪
+
+### Kiro 做了什么
+
+- 网上搜 GitHub 上用 Opus 5.5 做的 Three.js 3D 项目，挑了 7 个有代表性的：樱丘镇、Map of Middle-Earth、DeCarlo Boyz、Factory Yard、Driftwing、Felt World、Meridian Line。
+- 用 GitHub 接口统计每个项目的提交次数、时间跨度、代码文件数和代码量；读 README、`CLAUDE.md`、`PROJECT_STATE.md`、`METRICS` 和作者的 dev.to 文章，看它们怎么做的。
+- 下载每个项目的主截图，自己看了画面，和绿环之城对比。截图是别人的作品，没有存进公开仓库。
+- 发现 DeCarlo Boyz 用的是 Opus 4.8 和 Fable 5，不是 Opus 5.5。
+- 统计自己三个场景的代码量做对比：雨夜城市约 73 KB，峡谷拱门约 85 KB，绿环之城约 133 KB。
+- 新建 `knowledge/opus55-3d-showcase.md` 记下调研结果，README 的经验索引加了一行。

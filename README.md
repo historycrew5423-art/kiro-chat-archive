@@ -22,6 +22,7 @@ knowledge/               从会话里总结出来的经验：工作流、踩过�
 | [game-design-notes.md](knowledge/game-design-notes.md) | 游戏设计：方案写得很细却像“看演出”的坑和改法；黑客松游戏的当前方向和疫情题材的取材边界 |
 | [writing-preferences.md](knowledge/writing-preferences.md) | 帮用户写简介、报名表等文字的要求 |
 | [archive-workflow.md](knowledge/archive-workflow.md) | 归档同步：用户确认过的隐私处理办法；怎样让最后一轮回复也存全文 |
+| [opus55-3d-showcase.md](knowledge/opus55-3d-showcase.md) | 别人用 Opus 5.5 搭的 3D 项目：做法、规模、画面水平，以及对我们做大场景的启发 |
 | [video-production.md](knowledge/video-production.md) | 视频：怎么下载和“看完”抖音视频；参考教程的结构；我们教程视频的现状；用网页代码做动画素材 |
 
 ## 会话
