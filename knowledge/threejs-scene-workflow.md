@@ -135,3 +135,19 @@
 ### 提交前核对素材有没有真的用上
 - 2026-11-05 太阳朋克游戏：`leafy_grass_arm.jpg` 下载了但没加载；`mossy_rock_arm.jpg` 加载了，着色器也声明了 uniform，但从来没采样。玩家白下载约 180 KB。
 - 检查办法：对 `assets/` 里每个文件 grep 主程序看有没有加载；对每个贴图 uniform grep 着色器看有没有 `texture2D( 它, ... )`。
+
+### 游戏要截“玩家真的会看到的角度”
+- 2026-11-05 绿环之城：截图对比只用了开场镜头和两个平视角度。用户一玩就把镜头拉到山顶边缘往下俯视，暴露出两个问题：背光崖面几乎全黑（太阳照不到、环境光只有 0.34、没有 AO 和间接光）；城市是按“远看”做的，俯视时树是圆团、楼是盒子。
+- 以后每轮至少再截：俯视（镜头最大俯角）、贴近背光面、走到地图边缘回头看。
+- 背光面不能只靠调低环境光来换城市的明暗：先加 AO 或 `LightProbeGrid` 间接光，再调环境光。
+
+### three r187 自带、但还没用过的高级效果（本地 `examples/jsm` 里确认过）
+| 效果 | 文件 | 渲染器 |
+| --- | --- | --- |
+| Gaussian splatting（放真实扫描的场景） | `objects/GaussianSplat.js`、`loaders/SPLATLoader.js` 等 | 都有 |
+| 间接光探针网格 | `lighting/LightProbeGrid.js`、`LightProbeGridWebGL.js` | 都有 |
+| 环境光遮蔽 | `postprocessing/GTAOPass.js`、`tsl/display/GTAONode.js` | 都有 |
+| 屏幕空间全局光照 | `tsl/display/SSGINode.js` | 只有 WebGPU |
+| 时间抗锯齿 | `tsl/display/TRAANode.js` | 只有 WebGPU |
+
+这些效果在沙盒的软件渲染里截图很难验证，要用的话得让用户每轮在真机上看。

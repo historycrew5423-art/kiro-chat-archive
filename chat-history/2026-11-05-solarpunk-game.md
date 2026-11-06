@@ -241,3 +241,19 @@ node serve.mjs   # 然后打开 http://localhost:8765
 所以最好每改一轮，就由你或队友在自己电脑上打开看一眼。
 
 这一轮对话也存进了归档：[PR #15](https://github.com/historycrew5423-art/kiro-chat-archive/pull/15)。
+
+---
+
+## 第 20 轮
+
+### 用户
+
+> 那个绿环之城到你的threejs极限了吗，我很好奇你先在能做出的画面极限在哪
+
+（附一张游戏截图：镜头从山顶边缘往下俯视，袋鼠站在草坡上。画面下方和右侧的背光崖面几乎是黑的，像一块块平板；山下的城市从上往下看，树是一个个圆团，楼是带屋顶小方块的盒子。）
+
+### Kiro 做了什么
+
+- 对照代码看截图里的问题：太阳方向是 (0.66, 0.53, 0.53)，从右后方照来，朝城市那面的悬崖永远照不到直射光；环境光 `environmentIntensity` 只有 0.34，又没有环境光遮蔽和间接光，所以背光面只剩一层暗蓝。
+- 查了本地 three r187 自带的扩展，确认这些更高级的效果都有：Gaussian splatting（`objects/GaussianSplat.js` 和几个 splat 加载器）、`LightProbeGrid` 间接光（WebGL 和 WebGPU 都有）、GTAO 环境光遮蔽、SSGI 屏幕空间全局光照和 TRAA 抗锯齿（这两个只在 WebGPU / TSL 下）。
+- 在 `knowledge/threejs-scene-workflow.md` 记下：只拿开场镜头做截图对比，游戏里的其他角度会露馅。
