@@ -442,3 +442,24 @@ node serve.mjs   # 然后打开 http://localhost:8765
 AutoDL 也可以给我一个“开发者 Token”，让我自己开关机。但这个 Token 能直接花你账户里的钱，而我们的聊天记录会同步到公开仓库，所以我不建议发给我。
 
 你定好租哪家后告诉我，我先生成密钥，再把第 3 步要粘贴的命令给你。这次没改代码，这段对话已经存进归档（[PR #21](https://github.com/historycrew5423-art/kiro-chat-archive/pull/21)）。
+
+---
+
+## 第 24 轮
+
+### 用户
+
+> 给我autodl的网站
+
+### Kiro 做了什么
+
+- 确认 AutoDL 官网和算力市场页面都能打开（HTTP 200）。
+
+### Kiro 回复
+
+- 官网：[www.autodl.com](https://www.autodl.com/)
+- 租卡的页面（算力市场）：[www.autodl.com/market/list](https://www.autodl.com/market/list)
+
+这两个链接我刚确认过都能打开。注册并实名后，先在“算力市场”选最便宜的卡、按量计费开一台测试用。开好后告诉我，我把要粘贴的那行命令发给你。
+
+这段对话已存进归档（[PR #22](https://github.com/historycrew5423-art/kiro-chat-archive/pull/22)）。
