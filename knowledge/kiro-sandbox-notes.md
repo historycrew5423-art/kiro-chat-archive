@@ -102,3 +102,19 @@
 - Browserbase、Browserless 免费档、AWS Lambda、Vercel 这类没有显卡，只能软件渲染。
 - Middle-earth 项目的经验：无头 Chrome 里直接截 WebGPU 页面可能是黑的，要从渲染目标读像素再存图。
 - 云游戏电脑一类通常只给远程桌面客户端，不一定能 SSH；这种机器可以走“GitHub 中转”：机器上跑脚本拉分支、渲染截图、推回仓库。
+
+## 显卡租用平台（2026-11-05 第 23 轮调研）
+
+| | AutoDL | RunPod |
+| --- | --- | --- |
+| 地区 | 国内 | 海外 |
+| 付款 | 人民币充值；开放 API 要实名认证 | 先充值后扣费，信用卡或加密货币；国际卡交易容易被风控拒绝 |
+| 价格 | 第三方指南（2026-03）：RTX 3090 约 ¥1.20/时，4090D 约 ¥1.88/时 | 官网（2026-11）：A5000 $0.27、3090 $0.50、A40 $0.59、4090 $0.89 每小时，按秒计费 |
+| 从沙盒能不能连 | 官网能访问，SSH 域名（`connect.<地区>.seetacloud.com`）能解析 | 官网和 REST API（`rest.runpod.io`，无密钥返回 401）能访问 |
+| 无头 Chrome 跑 WebGPU | 没找到验证记录，要实测 | 有人在 A40（驱动 570）上验证过 |
+| 给 AI 用的工具 | 非官方 [AutoDL-cli](https://github.com/Minato-Aqukin/AutoDL-cli)：命令行 + MCP，开关机、TTL 自动关机，需要开发者 Token；[autodl-guide](https://github.com/JoeyYu23/autodl-guide) 讲怎么配合 AI 编程助手用 | 官方 API 和命令行；还有带显卡加速的远程桌面模板 |
+
+- AutoDL 访问 GitHub 要先 `source /etc/network_turbo`（它自带的加速）。
+- 不推荐：云游戏电脑（一般只有远程桌面，不能 SSH）、Colab（能跑 WebGPU 但不能 SSH、会断）、Browserbase 一类云浏览器（没有显卡）。
+- 接入方式：用户在网页控制台开机，打开 JupyterLab 终端粘贴一行命令把 Kiro 的公钥加进 `authorized_keys`，再把 SSH 地址和端口告诉 Kiro。不要在聊天里发 root 密码或开发者 Token（Token 能直接花账户的钱，聊天又会同步到公开仓库）。
+- 第一次用先做便宜的测试：`nvidia-smi`、`vulkaninfo --summary`，再用无头 Chrome 检查 `navigator.gpu.requestAdapter()` 能不能拿到真显卡（不是 fallback）。

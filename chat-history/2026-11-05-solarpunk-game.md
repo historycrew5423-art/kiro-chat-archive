@@ -394,3 +394,20 @@ node serve.mjs   # 然后打开 http://localhost:8765
 - **下次可能要重新加公钥。** 这个沙盒在会话之间可能不保留文件，下次会话也许要重新生成密钥，你再加一次公钥。
 
 你想走哪种？定了我再写具体的配置步骤或中转脚本。这次没动任何代码，只把这段对话存进了归档（[PR #20](https://github.com/historycrew5423-art/kiro-chat-archive/pull/20)）。
+
+---
+
+## 第 23 轮
+
+### 用户
+
+> 找一个好用的显卡租凭网站适合ai网页端直接用的
+
+### Kiro 做了什么
+
+- 理解为：找一个适合 Kiro（在网页端运行的 AI）直接连上去用的显卡租用平台。
+- 搜索并比较了 AutoDL、RunPod、Vast.ai、云游戏电脑、Colab、Browserbase 等。重点看四件事：国内能不能付款、Kiro 能不能 SSH 进去、容器里无头 Chrome 能不能用显卡跑 WebGPU、价格。
+- 读了 RunPod 官网价格页、计费文档和 GPU 远程桌面模板说明；读了 AutoDL 的两个第三方项目：给 AI 用的命令行/MCP 工具 AutoDL-cli，和配合 AI 编程助手使用的指南 autodl-guide。
+- 从沙盒测了能不能访问：AutoDL 官网能打开，SSH 域名能解析；RunPod 官网能打开，REST API 无密钥返回 401（说明能连上）。
+- 没找到有人在 AutoDL 容器里验证过 WebGPU；RunPod A40 上有人验证过。
+- 在 `knowledge/kiro-sandbox-notes.md` 记下平台对比和接入方式。没有生成密钥，用户还没决定租哪家。
