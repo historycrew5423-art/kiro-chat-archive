@@ -491,3 +491,19 @@ AutoDL 也可以给我一个“开发者 Token”，让我自己开关机。但�
 另外，它首页有个公告：11 月 12 日要调整部分显卡的价格，看意思是要涨价。我们只是先测 15 分钟，影响不大。
 
 这段对话已存进归档（[PR #23](https://github.com/historycrew5423-art/kiro-chat-archive/pull/23)）。
+
+---
+
+## 第 26 轮
+
+### 用户
+
+> 那你找一下国外版的
+
+### Kiro 做了什么
+
+- 搜索 AutoDL 有没有国外版：没找到，它只有 autodl.com 一个站。
+- 改推上一轮的备选 RunPod。确认 RunPod 官网、注册页、控制台、SSH 文档都能打开；Vast.ai 也能打开。
+- 读 RunPod 的 SSH 文档：公钥加在账户的 Credentials 页面，官方 PyTorch 模板自带完整 SSH，需要有公网 IP 的机器。
+- 生成了一对 SSH 密钥，放在工作区 `/projects/sandbox/.kiro-ssh/`（不在归档仓库里）。公钥写进回复，私钥没有离开沙盒。
+- 在 `knowledge/kiro-sandbox-notes.md` 记下 RunPod 的接入步骤和密钥放在哪。
