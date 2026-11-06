@@ -347,3 +347,18 @@ node serve.mjs   # 然后打开 http://localhost:8765
 - **像你给的太阳朋克图那种照片级写实画面，** 网页实时渲染谁都做不到同样的细节，最多做到某一个角度接近。
 
 这次调研已经存进归档（[PR #19](https://github.com/historycrew5423-art/kiro-chat-archive/pull/19)），新写了一份 [knowledge/opus55-3d-showcase.md](https://github.com/historycrew5423-art/kiro-chat-archive/blob/main/knowledge/opus55-3d-showcase.md)，下次做大场景前我会先读它。别人的截图是他们的作品，我没有存进公开仓库，只放了链接。
+
+---
+
+## 第 22 轮
+
+### 用户
+
+> 我如果给你配一个电脑呢，比如网上那种租借那种远程调用
+
+### Kiro 做了什么
+
+- 查沙盒网络：`OPEN_INTERNET`。用 `ssh -T git@github.com` 测试，能连上 GitHub 的 SSH 端口（没有密钥所以被拒绝），说明能 SSH 连到外部机器。先用 bash `/dev/tcp` 读欢迎信息的测试误报了连不上。
+- 搜索云 GPU 的价格和“无头 Chrome 在云显卡上跑 WebGPU”的做法，读了一篇在 RunPod、Colab、Modal 上验证过的配置教程。
+- 在 `knowledge/kiro-sandbox-notes.md` 记下：能 SSH 出去、凭据怎么给、云显卡上跑 WebGPU 的坑。
+- 没有改任何代码，也没有生成密钥：用户还没决定要不要租。

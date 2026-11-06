@@ -86,3 +86,19 @@
 
 - htmlpreview 会处理 `<script src>`，但页面里 JS 用相对路径加载的文件（贴图、模型）会指向 htmlpreview.github.io 自己，加载失败。
 - 做法：检测 `location.hostname === 'htmlpreview.github.io'`，从地址里解析出仓库和目录，改从 `raw.githubusercontent.com/<owner>/<repo>/<branch>/<dir>/` 加载。raw.githubusercontent.com 返回 `Access-Control-Allow-Origin: *`，贴图和 GLB 都能跨域加载。见 `files/2026-11-05-solarpunk-game/src/assets.js`。
+
+## 连外部机器（比如用户租的 GPU 电脑）
+
+2026-11-05 第 22 轮测过：
+
+- 沙盒能用 SSH 连出去：`ssh -T git@github.com` 能连上，因为没有密钥返回 `Permission denied (publickey)`。网络模式是 `OPEN_INTERNET`，普通 TCP（80 端口）和 HTTPS 也都通。
+- 用 bash 的 `/dev/tcp` 读 SSH 欢迎信息的测试会误报“连不上”，要用真正的 `ssh` 命令测。
+- 登录凭据不能经过聊天：聊天记录会同步到公开仓库。做法是在沙盒里生成密钥对，只把公钥给用户加到机器上；私钥不进仓库。机器的 IP 和用户名也不写进归档。
+- 沙盒在会话之间可能不保留文件，下次会话可能要重新生成密钥。
+
+## 在有显卡的机器上让无头 Chrome 跑 WebGPU
+
+- Linux 容器里要处理：Vulkan 加载器版本要够新（NVIDIA 570 以上驱动要 Vulkan 1.4）、装和驱动版本配套的 `libnvidia-gl-<版本>`、页面必须是安全上下文（`http://localhost`，不能是 `about:blank` 或 `file://`）、Puppeteer 默认会加 `--use-angle=swiftshader-webgl` 要去掉、Dawn 自己的显卡黑名单要用 `--enable-dawn-features=allow_unsafe_apis,disable_adapter_blocklist` 关掉。完整步骤见 [How to get WebGPU in Headless Chrome on Cloud GPUs](https://tigerabrodi.blog/how-to-get-webgpu-in-headless-chrome-on-cloud-gpus)（作者在 RunPod、Colab、Modal 上验证过）。
+- Browserbase、Browserless 免费档、AWS Lambda、Vercel 这类没有显卡，只能软件渲染。
+- Middle-earth 项目的经验：无头 Chrome 里直接截 WebGPU 页面可能是黑的，要从渲染目标读像素再存图。
+- 云游戏电脑一类通常只给远程桌面客户端，不一定能 SSH；这种机器可以走“GitHub 中转”：机器上跑脚本拉分支、渲染截图、推回仓库。
