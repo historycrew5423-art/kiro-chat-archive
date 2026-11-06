@@ -118,3 +118,11 @@
 - 不推荐：云游戏电脑（一般只有远程桌面，不能 SSH）、Colab（能跑 WebGPU 但不能 SSH、会断）、Browserbase 一类云浏览器（没有显卡）。
 - 接入方式：用户在网页控制台开机，打开 JupyterLab 终端粘贴一行命令把 Kiro 的公钥加进 `authorized_keys`，再把 SSH 地址和端口告诉 Kiro。不要在聊天里发 root 密码或开发者 Token（Token 能直接花账户的钱，聊天又会同步到公开仓库）。
 - 第一次用先做便宜的测试：`nvidia-smi`、`vulkaninfo --summary`，再用无头 Chrome 检查 `navigator.gpu.requestAdapter()` 能不能拿到真显卡（不是 fallback）。
+
+### RunPod 怎么让 Kiro 连上（2026-11-05 第 26 轮）
+
+- AutoDL 没找到国外版。用户那边打不开 AutoDL 时（多半是开着 VPN），改用 RunPod。
+- Kiro 的 SSH 密钥放在工作区 `/projects/sandbox/.kiro-ssh/`（在归档仓库外面，不会被提交）。公钥可以公开，私钥永远不进仓库、不进聊天。沙盒重置后要重新生成，用户再加一次公钥。
+- RunPod 的公钥加在账户的 Credentials 页面（设置里的 SSH Public Keys），之后新开的 Pod 会自动带上。要粘贴整行公钥（以 `ssh-ed25519` 开头），不是指纹。
+- 要用完整 SSH（能传文件）：选有公网 IP 的机器，模板用官方的 Runpod PyTorch 一类（已配好 SSH）。连接信息在 Pod 的 Connect 里，形如 `ssh root@<IP> -p <端口>`。
+- 先试 A40（有人验证过 WebGPU）或更便宜的 RTX A5000。
