@@ -507,3 +507,33 @@ AutoDL 也可以给我一个“开发者 Token”，让我自己开关机。但�
 - 读 RunPod 的 SSH 文档：公钥加在账户的 Credentials 页面，官方 PyTorch 模板自带完整 SSH，需要有公网 IP 的机器。
 - 生成了一对 SSH 密钥，放在工作区 `/projects/sandbox/.kiro-ssh/`（不在归档仓库里）。公钥写进回复，私钥没有离开沙盒。
 - 在 `knowledge/kiro-sandbox-notes.md` 记下 RunPod 的接入步骤和密钥放在哪。
+
+### Kiro 回复
+
+AutoDL 没有国外版，我查了只有 autodl.com 这一个网站。国外的就用上次说的备选 **RunPod**，它反而更合适：已经有人在它的 A40 显卡上跑通过 WebGPU。
+
+- 官网：[www.runpod.io](https://www.runpod.io/)
+- 注册：[console.runpod.io/signup](https://console.runpod.io/signup)
+
+这几个页面我这边都能打开。你开着 VPN 应该也能正常访问。
+
+**付款：** 先充值再按秒扣费。可以用信用卡或加密货币。国内发的信用卡付海外网站，有时会被银行风控拒绝，被拒的话别反复换卡试，容易被标记成可疑交易。
+
+**价格：** A40 每小时 $0.59，RTX A5000 每小时 $0.27（[官网价](https://www.runpod.io/pricing)）。先测 15 分钟，大概几毛钱人民币。
+
+**怎么让我连进去：**
+1. 注册并充值，先充最少的金额就行。
+2. 打开账户设置里的 **Credentials** 页面，找到 SSH Public Keys，把下面这一整行粘进去保存：
+
+   ```
+   ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH43YA6RBoHHlsaVTkBtbW6BY+U8bLJtUvdRrZleGXZJ kiro-sandbox
+   ```
+
+   这是公钥，公开也没关系。对应的私钥只存在我这边，不会进聊天记录，也不会进仓库。
+3. 新建一个 Pod：显卡选 **A40**（没货就选 RTX A5000），模板选官方的 **Runpod PyTorch**（自带 SSH），按需计费（On-Demand）。
+4. 等它启动后，点 **Connect**，把里面形如 `ssh root@IP地址 -p 端口` 的那行发给我。
+5. 我登录、装 Chrome、跑 WebGPU 测试，然后告诉你结果。用完你在控制台点 **Stop**。如果之后都不用了，就点 **Terminate**，这样连存储费也不收。
+
+如果信用卡付不了款，告诉我，我再帮你找别的办法。
+
+这段对话已存进归档（[PR #24](https://github.com/historycrew5423-art/kiro-chat-archive/pull/24)）。
