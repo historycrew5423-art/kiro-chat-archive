@@ -126,3 +126,10 @@
 - RunPod 的公钥加在账户的 Credentials 页面（设置里的 SSH Public Keys），之后新开的 Pod 会自动带上。要粘贴整行公钥（以 `ssh-ed25519` 开头），不是指纹。
 - 要用完整 SSH（能传文件）：选有公网 IP 的机器，模板用官方的 Runpod PyTorch 一类（已配好 SSH）。连接信息在 Pod 的 Connect 里，形如 `ssh root@<IP> -p <端口>`。
 - 先试 A40（有人验证过 WebGPU）或更便宜的 RTX A5000。
+
+### 按 agents.runpod.io 给 Kiro 装 Runpod（2026-11-05 第 27 轮）
+
+- 技能安装器的 Kiro 编号是 `kiro-cli`（官方表格里没列，用 `--agent list-ids` 查到）。
+- 加 `--global` 会失败：`ENOENT mkdir /root/.kiro`，沙盒的家目录只读。去掉 `--global` 装到工作区 `/projects/sandbox/.kiro/skills/`，16 个技能都装上了，Kiro 当场就能用 `disclose_context` 加载。沙盒重置后可能要重装：`npx -y skills add runpod/runpod-plugins-official --skill '*' --agent kiro-cli --yes`（在 `/projects/sandbox` 下运行）。
+- MCP 服务器：Kiro 写不了 `/projects/sandbox/.kiro/settings/mcp.json`（权限规则禁止），要用户自己在 Kiro 的 MCP 设置里加 `runpod`，地址 `https://mcp.runpod.io/`，再登录。没登录时服务器返回 401。
+- 不要让用户把 Runpod API Key 发到聊天里（聊天会同步到公开仓库）。没有 MCP 时，开 Pod 由用户在网页控制台操作，Kiro 用 SSH 公钥连进去。
