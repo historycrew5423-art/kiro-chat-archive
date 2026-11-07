@@ -537,3 +537,43 @@ AutoDL 没有国外版，我查了只有 autodl.com 这一个网站。国外的�
 如果信用卡付不了款，告诉我，我再帮你找别的办法。
 
 这段对话已存进归档（[PR #24](https://github.com/historycrew5423-art/kiro-chat-archive/pull/24)）。
+
+---
+
+## 第 27 轮
+
+### 用户
+
+> Set up Runpod for me: fetch and follow this guide https://agents.runpod.io/
+
+### Kiro 做了什么
+
+- 读了 Runpod 官方的 agent 接入指南（agents.runpod.io）。
+- 装技能：Node 版本 v22.23.4 满足要求。官方表格里没有 Kiro，用 `--agent list-ids` 查到编号 `kiro-cli`。加 `--global` 安装失败（家目录只读），改成装到工作区，16 个 Runpod 技能都装好、每个 `SKILL.md` 都不为空，Kiro 当场就能加载。
+- 注册 MCP 服务器：探测 `https://mcp.runpod.io/` 返回 401（没登录，正常）；写 `.kiro/settings/mcp.json` 被工作区权限规则拦住，没有绕过，留给用户在 Kiro 设置里加。
+- 按指南要求，向 Runpod 文档提交了一条反馈：表格里缺 Kiro、只读家目录下 `--global` 会失败、没有 Kiro 的 MCP 配置说明。
+- 在 `knowledge/kiro-sandbox-notes.md` 记下安装方法和限制。
+
+### Kiro 回复
+
+按 Runpod 官方指南装好了一半：技能装好了，MCP 服务器需要你来接上。
+
+```
+┌─ Runpod Agent Setup ─────────────────────────────────┐
+│  ✓ Runpod skills   router + lane + journey (16 个)   │
+│  ✗ runpod MCP      没能注册：配置文件被权限规则禁止   │
+└──────────────────────────────────────────────────────┘
+```
+
+**✓ 技能**：16 个 Runpod 技能都装进了工作区的 `.kiro/skills/`，每个都检查过内容不为空，我现在就能加载。指南的表格里没有 Kiro，我查到安装器里 Kiro 的编号是 `kiro-cli`。按指南加 `--global` 装到家目录时失败了，因为这个环境的家目录是只读的，所以改装到工作区。
+
+**✗ MCP 服务器**：我要写配置文件 `.kiro/settings/mcp.json` 时，被这个工作区的权限规则拦住了。我没有绕过它。需要你来加：
+1. 在 Kiro 的 MCP 设置里新增一个服务器，名字填 `runpod`，地址填 `https://mcp.runpod.io/`。
+2. 按提示用 “Sign in with Runpod” 登录。这是网页登录，不会生成 API Key。
+3. 加好后告诉我，我列一下你账户里的 Pod 来确认真的连上了。列表是空的也算成功，说明连接正常、账户里还没有 Pod。
+
+如果 Kiro 里加不了，或者登录报 `redirect_uri is not allowed`，指南的备用办法是用 API Key。但请不要把 Key 发到聊天里，因为聊天记录会同步到公开仓库。
+
+**不接 MCP 也能先测显卡。** 上一轮的办法照样能用：你在 Runpod 网页上把公钥加到 Credentials 页面，开一个 A40 的 Pod，把 Connect 里的 `ssh root@IP -p 端口` 那行发给我，我 SSH 进去测 WebGPU。MCP 只是让我能自己开关 Pod、查价格和余额。
+
+这段对话已存进归档（[PR #25](https://github.com/historycrew5423-art/kiro-chat-archive/pull/25)）。
