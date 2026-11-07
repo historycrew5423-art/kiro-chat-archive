@@ -35,6 +35,7 @@ knowledge/               从会话里总结出来的经验：工作流、踩过�
 | 2026-11-05 | 教程视频脚本：看完参考的抖音教程，按 nai 游戏的真实过程写真人出镜教程的分镜脚本、口播稿和剪辑规范；动画样片 | [chat-history/2026-11-05-tutorial-video-script.md](chat-history/2026-11-05-tutorial-video-script.md) | [files/2026-11-05-tutorial-video](files/2026-11-05-tutorial-video) |
 | 2026-11-05 | 太阳朋克世界小游戏“绿环之城”（[直接打开](https://htmlpreview.github.io/?https://github.com/historycrew5423-art/kiro-chat-archive/blob/main/files/2026-11-05-solarpunk-game/index.html)） | [chat-history/2026-11-05-solarpunk-game.md](chat-history/2026-11-05-solarpunk-game.md) | [files/2026-11-05-solarpunk-game](files/2026-11-05-solarpunk-game) |
 | 2026-11-05 | 在 Kiro 沙盒里跑无界面 Blender：安装脚本、测试渲染、导出 GLB（第 29 轮） | [chat-history/2026-11-05-solarpunk-game.md](chat-history/2026-11-05-solarpunk-game.md) | [files/2026-11-05-blender-headless](files/2026-11-05-blender-headless) |
+| 2026-11-07 | 未来医院袋鼠肉鸽：three.js 第三人称肉鸽，医院内部可以进去，屋顶打 Boss（[直接打开](https://htmlpreview.github.io/?https://github.com/historycrew5423-art/kiro-chat-archive/blob/main/files/2026-11-07-future-hospital/index.html)） | 按用户要求，这一轮的聊天记录不上传 | [files/2026-11-07-future-hospital](files/2026-11-07-future-hospital) |
 
 ## 同步方式
 

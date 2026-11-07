@@ -1,0 +1,14 @@
+{
+  "name": "future-hospital-roguelike",
+  "private": true,
+  "type": "module",
+  "description": "未来医院（暂名）：Three.js 第三人称肉鸽，主角袋鼠",
+  "scripts": {
+    "build": "esbuild src/main.js --bundle --format=iife --minify --target=es2020 --outfile=app.js",
+    "dev": "esbuild src/main.js --bundle --format=iife --target=es2020 --sourcemap --outfile=app.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "three": "^0.187.0"
+  }
+}
