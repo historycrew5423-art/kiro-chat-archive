@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>未来医院（暂名）· 袋鼠肉鸽</title>
+<style>
+	:root { --ui: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", system-ui, sans-serif; }
+	* { box-sizing: border-box; }
+	html, body { margin: 0; height: 100%; overflow: hidden; background: #000; font-family: var(--ui); color: #fff; user-select: none; }
+	#c { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+	.layer { position: fixed; inset: 0; pointer-events: none; }
+	.hidden { display: none !important; }
+	/* 载入 */
+	#loading { display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle at 60% 40%, #2b2f38, #0b0c10); pointer-events: auto; z-index: 50; }
+	#loading h1 { font-size: 34px; letter-spacing: 6px; margin: 0 0 18px; font-weight: 700; }
+	#bar { width: 320px; height: 6px; border-radius: 3px; background: #ffffff22; overflow: hidden; }
+	#bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #ffd27a, #ff7a59); transition: width .2s; }
+	#loading p { opacity: .65; font-size: 13px; margin-top: 12px; }
+	/* 标题 */
+	#title { display: flex; flex-direction: column; justify-content: flex-end; padding: 0 0 9vh 7vw; z-index: 20; pointer-events: auto; cursor: pointer;
+		background: linear-gradient(90deg, #00000088, #00000000 46%); }
+	#title h1 { font-size: clamp(40px, 6vw, 86px); margin: 0; letter-spacing: 8px; font-weight: 800; text-shadow: 0 4px 30px #0008; }
+	#title h1 small { font-size: .32em; letter-spacing: 3px; font-weight: 500; opacity: .85; display: block; margin-top: 6px; }
+	#title .start { margin-top: 26px; font-size: 20px; letter-spacing: 4px; animation: blink 1.6s infinite; }
+	#title .keys { margin-top: 18px; font-size: 13px; line-height: 1.9; opacity: .8; max-width: 560px; }
+	#title .keys b { display: inline-block; min-width: 26px; padding: 0 6px; margin-right: 4px; border: 1px solid #fff7; border-radius: 4px; text-align: center; font-weight: 600; }
+	@keyframes blink { 50% { opacity: .35; } }
+	/* HUD */
+	#hud { z-index: 10; }
+	#hp { position: absolute; left: 28px; top: 24px; width: min(300px, 24vw); }
+	.barbox { height: 16px; border-radius: 8px; background: #0008; border: 1px solid #fff3; overflow: hidden; position: relative; }
+	.barbox i { position: absolute; inset: 0 auto 0 0; width: 100%; background: linear-gradient(90deg, #ff4d5a, #ff9a6a); transition: width .15s; }
+	.barbox span { position: absolute; inset: 0; font-size: 11px; line-height: 15px; text-align: center; font-weight: 700; text-shadow: 0 1px 2px #000; }
+	#hp .label { font-size: 13px; margin-bottom: 6px; text-shadow: 0 1px 3px #000; font-weight: 600; }
+	#coins { margin-top: 8px; font-size: 14px; text-shadow: 0 1px 3px #000; }
+	#coins .coin { display: inline-block; width: 13px; height: 13px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; background: radial-gradient(circle at 35% 35%, #fff3b0, #ffc93d 45%, #b8860b); box-shadow: 0 0 0 1px #0006; }
+	#xp { position: absolute; left: 50%; bottom: 18px; width: min(560px, 60vw); transform: translateX(-50%); }
+	#xp .barbox { height: 8px; }
+	#xp .barbox i { background: linear-gradient(90deg, #6ad3ff, #b38aff); }
+	#xp .lv { text-align: center; font-size: 12px; margin-bottom: 4px; text-shadow: 0 1px 3px #000; }
+	#ult { position: absolute; left: 50%; bottom: 52px; transform: translateX(-50%); width: 78px; height: 78px; border-radius: 50%;
+		background: conic-gradient(#ffd34d var(--p, 0%), #0009 0); display: flex; align-items: center; justify-content: center; border: 2px solid #fff4; }
+	#ult div { width: 64px; height: 64px; border-radius: 50%; background: #111c; display: flex; align-items: center; justify-content: center; flex-direction: column; font-size: 11px; font-weight: 700; text-align: center; line-height: 1.2; }
+	#ult.ready { animation: pulse .8s infinite; border-color: #ffd34d; }
+	#ult.ready div { background: #4a3500cc; }
+	@keyframes pulse { 50% { transform: translateX(-50%) scale(1.08); box-shadow: 0 0 30px #ffd34d; } }
+	#skills { position: absolute; left: calc(50% + 60px); bottom: 58px; display: flex; gap: 8px; }
+	#skills .sk { width: 46px; height: 46px; border-radius: 10px; background: #000a; border: 1px solid #fff3; position: relative; overflow: hidden; font-size: 10px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 3px; font-weight: 700; }
+	#skills .sk b { position: absolute; top: 3px; left: 5px; font-size: 10px; opacity: .8; }
+	#skills .sk i { position: absolute; inset: auto 0 0 0; height: 0; background: #fff3; }
+	#floor { position: absolute; right: 28px; top: 22px; text-align: right; text-shadow: 0 1px 4px #000; }
+	#floor .f { font-size: 20px; font-weight: 800; letter-spacing: 2px; }
+	#floor .r { font-size: 13px; opacity: .85; margin-top: 2px; }
+	#minimap { position: absolute; right: 28px; top: 84px; display: grid; grid-template-columns: 30px 30px; gap: 4px; }
+	#minimap div { width: 30px; height: 22px; border-radius: 4px; background: #0007; border: 1px solid #fff3; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+	#minimap div.cur { background: #ffd34d; color: #000; font-weight: 800; }
+	#minimap div.done { background: #3a7a55aa; }
+	#minimap div.locked { opacity: .35; }
+	#combo { position: absolute; left: 50%; top: 15%; transform: translateX(-50%); font-size: 48px; font-weight: 900; font-style: italic; text-shadow: 3px 3px 0 #000, 0 0 20px #0008; opacity: 0; transition: opacity .2s; }
+	#combo small { font-size: 18px; margin-left: 6px; }
+	#boss { position: absolute; left: 50%; top: 22px; transform: translateX(-50%); width: min(600px, 44vw); text-align: center; }
+	#boss .name { font-size: 18px; font-weight: 800; letter-spacing: 3px; margin-bottom: 6px; text-shadow: 0 2px 6px #000; }
+	#boss .barbox { height: 14px; }
+	#boss .barbox i { background: linear-gradient(90deg, #8b5cff, #ff4d8b); }
+	#crosshair { position: absolute; left: 50%; top: 46%; width: 22px; height: 22px; transform: translate(-50%, -50%); }
+	#crosshair::before, #crosshair::after { content: ""; position: absolute; background: #fffd; box-shadow: 0 0 3px #000; }
+	#crosshair::before { left: 10px; top: 2px; width: 2px; height: 18px; }
+	#crosshair::after { top: 10px; left: 2px; height: 2px; width: 18px; }
+	#crosshair.charge::before, #crosshair.charge::after { background: #ffd34d; }
+	#prompt { position: absolute; left: 50%; top: 62%; transform: translateX(-50%); padding: 8px 18px; border-radius: 20px; background: #000b; border: 1px solid #fff4; font-size: 16px; font-weight: 600; }
+	#prompt b { color: #ffd34d; }
+	#cardsRow { position: absolute; left: 28px; bottom: 22px; display: flex; flex-wrap: wrap; gap: 5px; max-width: 34vw; }
+	#cardsRow span { font-size: 11px; padding: 3px 7px; border-radius: 10px; background: #000a; border: 1px solid #fff3; }
+	#cardsRow span.r1 { border-color: #5aa8ff; } #cardsRow span.r2 { border-color: #ffc93d; } #cardsRow span.fu { border-color: #ff6ad5; }
+	#cardsRow span b { font-weight: 600; }
+	#cardsRow span em { display: none; font-style: normal; opacity: .85; margin-left: 8px; }
+	#cardsRow span.none { display: none; }
+	#cardsRow.big { flex-direction: column; flex-wrap: nowrap; max-width: 46vw; bottom: 34px; gap: 6px; }
+	#cardsRow.big span { font-size: 13px; padding: 6px 12px; border-radius: 8px; background: #000c; line-height: 1.5; }
+	#cardsRow.big span em, #cardsRow.big span.none { display: inline-block; }
+	#toast { position: absolute; left: 50%; top: 34%; transform: translateX(-50%); font-size: 22px; font-weight: 800; text-shadow: 0 2px 8px #000; text-align: center; letter-spacing: 2px; }
+	/* 梗弹字：立体字 */
+	#popups { z-index: 12; overflow: hidden; }
+	.pop { position: absolute; font-weight: 900; white-space: nowrap; transform: translate(-50%, -50%); letter-spacing: 1px;
+		text-shadow: 0 1px 0 #000, 1px 2px 0 #000, 2px 3px 0 #000, 3px 4px 0 #000, 4px 5px 0 #000, 0 0 18px #0009; animation: popIn .9s cubic-bezier(.2,1.6,.4,1) forwards; }
+	@keyframes popIn { 0% { transform: translate(-50%, -50%) scale(.2) rotate(-12deg); opacity: 0; } 20% { transform: translate(-50%, -50%) scale(1.25) rotate(4deg); opacity: 1; }
+		35% { transform: translate(-50%, -50%) scale(1) rotate(-2deg); } 80% { opacity: 1; } 100% { transform: translate(-50%, -80%) scale(1); opacity: 0; } }
+	.dmg { position: absolute; font-weight: 900; font-size: 18px; transform: translate(-50%, -50%); text-shadow: 0 2px 0 #000, 0 0 6px #000; animation: dmgUp .8s ease-out forwards; }
+	.dmg.crit { font-size: 28px; color: #ffd34d; }
+	@keyframes dmgUp { 0% { opacity: 0; transform: translate(-50%, -30%) scale(.6); } 15% { opacity: 1; transform: translate(-50%, -60%) scale(1.15); } 100% { opacity: 0; transform: translate(-50%, -180%) scale(.9); } }
+	#subtitle { position: absolute; left: 50%; bottom: 128px; transform: translateX(-50%); font-size: 22px; font-weight: 800; padding: 6px 16px; border-radius: 8px; background: #000a; max-width: 80vw; text-align: center; }
+	#subtitle em { color: #ffd34d; font-style: normal; margin-right: 8px; }
+	/* 选卡 */
+	#cards { z-index: 30; background: #000a; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: auto; backdrop-filter: blur(3px); }
+	#cards h2 { font-size: 30px; letter-spacing: 6px; margin: 0 0 6px; }
+	#cards .sub { opacity: .75; margin-bottom: 26px; font-size: 14px; }
+	#cards .row { display: flex; gap: 22px; }
+	.card { width: 250px; min-height: 340px; border-radius: 16px; padding: 18px; background: linear-gradient(160deg, #2c3038, #15171c); border: 2px solid #fff6; cursor: pointer; transition: transform .15s; display: flex; flex-direction: column; position: relative; }
+	.card:hover { transform: translateY(-8px) scale(1.03); }
+	.card.r1 { border-color: #5aa8ff; background: linear-gradient(160deg, #1d3354, #121722); }
+	.card.r2 { border-color: #ffc93d; background: linear-gradient(160deg, #4b3a12, #1a160c); box-shadow: 0 0 30px #ffc93d55; }
+	.card.fusion { border-color: #ff6ad5; background: linear-gradient(160deg, #4a1940, #180b16); box-shadow: 0 0 30px #ff6ad566; }
+	.card .kind { font-size: 12px; opacity: .8; letter-spacing: 2px; }
+	.card .nm { font-size: 26px; font-weight: 900; margin: 10px 0 6px; line-height: 1.15; }
+	.card .lv { font-size: 12px; color: #ffd34d; }
+	.card .fx { font-size: 15px; line-height: 1.6; margin-top: 12px; flex: 1; }
+	.card .src { font-size: 12px; opacity: .65; line-height: 1.5; border-top: 1px solid #fff2; padding-top: 8px; }
+	.card .key { position: absolute; right: 14px; top: 12px; font-size: 12px; opacity: .6; }
+	/* 暂停、结算 */
+	.panel { z-index: 40; background: #000c; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: auto; }
+	.panel h2 { font-size: 40px; letter-spacing: 8px; margin: 0 0 10px; }
+	.panel .btn { margin: 8px; padding: 12px 34px; border-radius: 26px; border: 1px solid #fff7; background: #ffffff14; font-size: 18px; cursor: pointer; font-family: var(--ui); color: #fff; }
+	.panel .btn:hover { background: #ffd34d; color: #000; }
+	#summary .rank { font-size: 120px; font-weight: 900; line-height: 1; margin: 8px 0 4px; text-shadow: 0 6px 0 #000; }
+	#summary .stats { font-size: 16px; line-height: 2; opacity: .9; text-align: center; margin: 10px 0 18px; }
+	#summary .tiers { display: flex; gap: 8px; margin-bottom: 14px; }
+	#summary .tiers span { padding: 4px 12px; border-radius: 8px; background: #fff1; font-weight: 800; }
+	#summary .tiers span.on { background: #ffd34d; color: #000; }
+	#fade { background: #000; opacity: 0; transition: opacity .45s; z-index: 35; }
+	#elevator { z-index: 36; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+	#elevator .disp { font-family: "Courier New", monospace; font-size: 64px; color: #ff6a3d; background: #120806; padding: 8px 30px; border-radius: 10px; border: 2px solid #ff6a3d55; text-shadow: 0 0 18px #ff6a3d; }
+	#elevator .cap { margin-top: 18px; font-size: 20px; opacity: .9; }
+	#debug { position: fixed; left: 8px; bottom: 8px; font: 11px monospace; color: #9f9; z-index: 60; text-shadow: 0 1px 2px #000; white-space: pre; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<div id="loading" class="layer"><h1>未来医院</h1><div id="bar"><i></i></div><p id="loadText">正在挂号……</p></div>
+
+<div id="title" class="layer hidden">
+	<h1>未来医院<small>袋鼠挂号中 · 3D 肉鸽（暂名）</small></h1>
+	<div class="start">点击开始</div>
+	<div class="keys">
+		<b>WASD</b>移动　<b>鼠标</b>转镜头　<b>左键</b>扔口罩　<b>右键</b>按住蓄力 N95<br>
+		<b>F</b>袋鼠飞踢　<b>Shift</b>冲刺　<b>空格</b>跳　<b>Q</b>大招　<b>E</b>互动　<b>Tab</b>看梗卡说明　<b>Esc</b>暂停
+	</div>
+</div>
+
+<div id="hud" class="layer hidden">
+	<div id="hp"><div class="label">袋鼠医生 <span id="hpText"></span></div><div class="barbox"><i id="hpBar"></i><span id="hpNum"></span></div><div id="coins"><i class="coin"></i>金币 <b id="coinNum">0</b></div></div>
+	<div id="floor"><div class="f" id="floorName">1F 门诊大厅</div><div class="r" id="roomName">先去挂号处挂号</div></div>
+	<div id="minimap"></div>
+	<div id="boss" class="hidden"><div class="name" id="bossName">冠状病毒国王</div><div class="barbox"><i id="bossBar"></i></div></div>
+	<div id="combo"></div>
+	<div id="crosshair"></div>
+	<div id="prompt" class="hidden"></div>
+	<div id="toast"></div>
+	<div id="xp"><div class="lv" id="lvText">Lv.1</div><div class="barbox"><i id="xpBar" style="width:0"></i></div></div>
+	<div id="ult"><div id="ultText">大招<br>0%</div></div>
+	<div id="skills"><div class="sk" id="skN95"><b>右键</b>N95<i></i></div><div class="sk" id="skKick"><b>F</b>飞踢<i></i></div><div class="sk" id="skDash"><b>⇧</b>冲刺<i></i></div></div>
+	<div id="cardsRow"></div>
+	<div id="subtitle" class="hidden"></div>
+</div>
+<div id="popups" class="layer"></div>
+
+<div id="cards" class="layer hidden"><h2 id="cardsTitle">升级！选一张梗卡</h2><div class="sub" id="cardsSub">按 1 / 2 / 3 或点击</div><div class="row" id="cardRow"></div></div>
+<div id="pause" class="layer panel hidden"><h2>暂停</h2><div id="pauseCards" style="max-width:720px;text-align:center;font-size:14px;line-height:1.9;opacity:.85;margin-bottom:18px"></div>
+	<button class="btn" id="btnResume">继续（点击画面）</button><button class="btn" id="btnMute">静音：关</button><button class="btn" id="btnRestart">人生重开</button></div>
+<div id="summary" class="layer panel hidden"><div id="sumTitle" style="font-size:28px;letter-spacing:6px">人生总结</div><div class="rank" id="sumRank">夯</div><div class="tiers" id="sumTiers"></div><div class="stats" id="sumStats"></div><button class="btn" id="btnAgain">人生重开</button></div>
+<div id="fade" class="layer"></div>
+<div id="elevator" class="layer hidden"><div class="disp" id="elevDisp">2F</div><div class="cap" id="elevCap"></div></div>
+<div id="debug" class="hidden"></div>
+<script src="app.js"></script>
+</body>
+</html>
