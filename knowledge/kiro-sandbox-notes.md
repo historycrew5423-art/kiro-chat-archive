@@ -142,3 +142,13 @@
 - 余额到 $0 会自动停 Pod；没挂网络卷的 Pod 会被直接删掉，数据找不回来。
 - 停机后的卷存储按 $0.20/GB/月收费，不用了要 Terminate。
 - 更省钱的路：用户自己的 Mac 跑 GitHub 中转脚本（免费，Mac 有真显卡）；或者关掉 VPN 用 AutoDL（人民币小额充值）。
+
+### 在沙盒里跑无界面 Blender（2026-11-05 第 29 轮，已实测）
+
+- 用户电脑什么都不用装，Blender 跑在 Kiro 的沙盒里。安装脚本和测试场景在 `files/2026-11-05-blender-headless/`，`bash setup.sh` 一条命令装好（约 1.5 GB，几分钟）。沙盒重置后要重装。
+- `download.blender.org` 在沙盒里被拦，用镜像 `https://mirrors.ocf.berkeley.edu/blender/release/Blender5.2/`。
+- 系统（Amazon Linux 2023）缺 libSM、libICE、libglvnd、mesa 等库，没有 root 也没有 `cpio`：用 `dnf repoquery --location` 查 rpm 地址（logdir/cachedir/persistdir 都指到可写目录），curl 下载，`rpm2cpio | python3 cpio_extract.py libs` 解开，运行时设 `LD_LIBRARY_PATH=libs/usr/lib64`。
+- Cycles 只能用 CPU（8 核）：960×540、32 采样加降噪约 6 秒。
+- EEVEE 也能出图，靠 Mesa 软件 OpenGL：多设 `LIBGL_DRIVERS_PATH=libs/usr/lib64/dri` 和 `__EGL_VENDOR_LIBRARY_DIRS=libs/usr/share/glvnd/egl_vendor.d`。同一张图约 9 秒。会刷 `EGL_BAD_MATCH` 报错，不影响结果。
+- 家目录只读，Blender 会提示写 `~/.config/blender` 失败，不影响渲染和导出。
+- 用途：用 Python 建模、渲染预览图给用户看；导出 GLB 给 three.js 项目用（`bpy.ops.export_scene.gltf`）。没有显卡，所以高分辨率、高采样、复杂场景会很慢，大活要放到有显卡的机器上跑同一个脚本。
