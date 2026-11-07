@@ -610,3 +610,43 @@ AutoDL 没有国外版，我查了只有 autodl.com 这一个网站。国外的�
 想用第 1 种的话告诉我，我把脚本写好，再一步步教你怎么在 Mac 上跑起来。
 
 这段对话已存进归档（[PR #26](https://github.com/historycrew5423-art/kiro-chat-archive/pull/26)）。
+
+## 第 29 轮
+
+### 用户
+
+> 我想知道有没有让我ai网页端不用我电脑本身软件的情况下，使用blender的方法
+
+### Kiro 做了什么
+
+- 在沙盒里装 Linux 版 Blender 5.2.3。官网下载地址被拦，改用伯克利的镜像。
+- 系统缺图形相关的库，没有 root 也没有 `cpio`：用 dnf 查到 19 个 rpm 包的地址，下载后用自写的 `cpio_extract.py` 解开，靠 `LD_LIBRARY_PATH` 让 Blender 找到。
+- 写测试脚本 `test_scene.py`：白塔、铜环、圆盘平台、60 个树团、天空和太阳，相机自动对准。Cycles（CPU）和 EEVEE（Mesa 软件 OpenGL）各渲染一张 960×540，再导出 GLB。
+- 把安装过程写成 `setup.sh`，在空目录里重跑一遍确认能装好、能出图。
+- 文件放在 `files/2026-11-05-blender-headless/`，安装经验写进 `knowledge/kiro-sandbox-notes.md`。
+
+### Kiro 回复
+
+有。我刚在自己这边试通了，你电脑上什么都不用装。
+
+**做法：** Blender 有不开界面的模式，可以完全用 Python 脚本控制。我在自己的云端沙盒里装了 Linux 版 Blender 5.2.3，你提需求，我写脚本建模、调材质和灯光、渲染，再把图和文件推到 GitHub 给你看。
+
+**实测结果：** 我搭了一座白塔，带圆盘平台和树，两种渲染器都能出图：
+
+- Cycles（真实光线追踪，用 CPU 算）：960×540，约 6 秒。[看图](https://github.com/historycrew5423-art/kiro-chat-archive/blob/main/files/2026-11-05-blender-headless/test_cycles.png)
+- EEVEE（实时渲染器，用软件模拟显卡）：同样大小，约 9 秒。[看图](https://github.com/historycrew5423-art/kiro-chat-archive/blob/main/files/2026-11-05-blender-headless/test_eevee.png)
+- 还导出了 GLB 模型文件，three.js 可以直接加载。也就是说，以后“绿环之城”的模型可以先在 Blender 里做，再放进网页游戏。
+
+**能做的事：** 用脚本建模和摆场景；渲染效果图；把光照和阴影烘焙进贴图，让网页游戏更好看又不卡；批量转换格式、减面，处理网上下载的模型。
+
+**限制：**
+
+1. 你看不到 Blender 的界面，也不能自己拖拽、点按钮，只能看我发的图，再用文字告诉我怎么改。
+2. 我这边没有显卡。图大、采样高、场景复杂时会很慢。大活可以把同一个脚本放到租的显卡机器上跑（比如 AutoDL）。
+3. 沙盒重置后 Blender 会被清掉。我已经把安装写成一条命令的脚本，重装几分钟就好。
+
+如果你想自己在网页里操作 Blender 界面，那需要能开远程桌面的云电脑，我还没查过这类服务，需要的话我再去找。
+
+要不要我先用它给“绿环之城”做点东西？比如重做白塔的模型，或者烘焙光照。
+
+安装脚本和测试文件在 [files/2026-11-05-blender-headless](https://github.com/historycrew5423-art/kiro-chat-archive/tree/main/files/2026-11-05-blender-headless)，这段对话已存进归档（[PR #28](https://github.com/historycrew5423-art/kiro-chat-archive/pull/28)）。
