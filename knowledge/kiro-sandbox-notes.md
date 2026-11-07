@@ -133,3 +133,12 @@
 - 加 `--global` 会失败：`ENOENT mkdir /root/.kiro`，沙盒的家目录只读。去掉 `--global` 装到工作区 `/projects/sandbox/.kiro/skills/`，16 个技能都装上了，Kiro 当场就能用 `disclose_context` 加载。沙盒重置后可能要重装：`npx -y skills add runpod/runpod-plugins-official --skill '*' --agent kiro-cli --yes`（在 `/projects/sandbox` 下运行）。
 - MCP 服务器：Kiro 写不了 `/projects/sandbox/.kiro/settings/mcp.json`（权限规则禁止），要用户自己在 Kiro 的 MCP 设置里加 `runpod`，地址 `https://mcp.runpod.io/`，再登录。没登录时服务器返回 401。
 - 不要让用户把 Runpod API Key 发到聊天里（聊天会同步到公开仓库）。没有 MCP 时，开 Pod 由用户在网页控制台操作，Kiro 用 SSH 公钥连进去。
+
+### Runpod 的实际门槛（2026-11-05 第 28 轮，来自官方计费文档）
+
+- 真正贵的是起充：官方说最少充 $10 起步；预付卡每次至少 $100。充进去的余额不能退、不能提现。
+- 开 Pod 时余额至少要够这台机器跑 1 小时。默认每小时消费上限 $80。
+- 测试本身很便宜：RTX A5000 $0.27/时，测 15 分钟约 $0.07。
+- 余额到 $0 会自动停 Pod；没挂网络卷的 Pod 会被直接删掉，数据找不回来。
+- 停机后的卷存储按 $0.20/GB/月收费，不用了要 Terminate。
+- 更省钱的路：用户自己的 Mac 跑 GitHub 中转脚本（免费，Mac 有真显卡）；或者关掉 VPN 用 AutoDL（人民币小额充值）。
