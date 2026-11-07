@@ -1421,3 +1421,24 @@ AI 那边每关都会用这几招打你：
 **还等你们定的**在第 17 节，最要紧的三件：Boss 形象；2020 年这一章用哪些梗（第 6.4 节的 14 张卡是示例）；附录 A 里早先选的 22 个梗，每个补一句含义，补完才能做成卡。
 
 这一轮也同步到了归档仓库（[PR #29](https://github.com/historycrew5423-art/kiro-chat-archive/pull/29)，已合并）。
+
+---
+
+## 第 23 轮（2026-11-07）
+
+### 用户
+
+> 给我可以直接下载的md
+
+### Kiro 做了什么
+
+- 用 curl 检查了 raw.githubusercontent.com 上的原始文件链接：HTTP 200，`text/plain; charset=utf-8`，62141 字节，第一行就是方案标题。
+- 新建分支 `sync/2026-11-07-download-link`，把这一轮写进记录，提交、开 PR、合并。
+
+### Kiro 回复
+
+下载链接：[策划方案.md（原始文件）](https://raw.githubusercontent.com/historycrew5423-art/kiro-chat-archive/main/files/2026-11-07-game-design-doc/%E7%AD%96%E5%88%92%E6%96%B9%E6%A1%88.md)
+
+在链接上点右键，选"链接另存为"，就会直接保存成 `策划方案.md`。直接点开的话，浏览器会把它当纯文本显示，这时按 Ctrl+S（Mac 上是 Cmd+S）也能存下来。
+
+我刚测过这个链接，返回的是完整的 v0.2，约 62 KB，UTF-8 编码，中文不会乱码。
